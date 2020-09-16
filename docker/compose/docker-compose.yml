@@ -1,0 +1,16 @@
+version: "3.3"
+
+services:
+  graphql:
+    build: ./api
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    
+  webserver:
+    image: halverneus/static-file-server
+    volumes:
+      - ./webserver:/web
+    ports:
+      - "8080:8080"
