@@ -1,2 +1,5 @@
 strawberry-graphql==0.32.3
-peewee==3.13.3
+
+peewee==3.13.3 # database ORM
+python-dotenv==0.14.0 # fetching config in dotenv
+psycopg2==2.8.6 # postgresql peewee driver

@@ -1,14 +1,25 @@
 version: "3.3"
 
+networks:
+  db:
+    
+volumes:
+  postgresql:
+
 services:
   graphql:
     build: ./api
+    env_file: .env
     ports:
       - "8000:8000"
     stdin_open: true
     tty: true
     volumes:
       - ./api/src:/app
+    networks:
+      - db
+    depends_on:
+      - db
     
   webserver:
     image: halverneus/static-file-server
@@ -16,3 +27,12 @@ services:
       - ./webserver:/web
     ports:
       - "8080:8080"
+
+   # PGSQL DATABASE
+  db:
+    image: postgres:9.6.8
+    env_file: .env
+    volumes:
+      - postgresql:/var/lib/postgresql/data:delegated
+    networks:
+      - db

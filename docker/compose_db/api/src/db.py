@@ -2,7 +2,16 @@ from peewee import *
 from datetime import date
 from pprint import pprint as pp
 
-db = SqliteDatabase(':memory:')
+from settings import DB_CONFIG
+
+# Connect to a Postgres database.
+db = PostgresqlDatabase(
+    DB_CONFIG.DB, 
+    user=DB_CONFIG.USER, 
+    password=DB_CONFIG.PASSWORD,
+    host=DB_CONFIG.HOST, 
+    port=DB_CONFIG.PORT
+)
 
 class BaseModel(Model):
     class Meta:
