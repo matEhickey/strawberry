@@ -1,1 +1,2 @@
 strawberry-graphql==0.32.3
+peewee==3.13.3

@@ -2,22 +2,24 @@ from __future__ import annotations
 
 from typing import List, Optional
 import strawberry
-
-datas = None
+import db
 
 class Datas:
     def getDatas(key):
-        return datas[key]
+        if(key == "books"):
+            return db.Book.select()
+        if(key == "authors"):
+            return db.Author.select()
 
     
-def get_books(id=None, author_id=None) -> List[Book]:
-    datas = Datas.getDatas("books")
-    
-    if author_id: 
-        datas = filter(lambda x: x.author_id == author_id, datas)
-    
+def get_books(id=None, author=None) -> List[Book]:
+    if author: 
+        datas = author.books
+    else:
+        datas = Datas.getDatas("books")
+        
     if id:
-        datas = filter(lambda x: x.id == id, datas)
+        datas = datas.where(db.Book.id == id)
         
     return list(datas)
     
@@ -25,7 +27,7 @@ def get_authors(id: Optional[int] = None) -> List[Author]:
     datas = Datas.getDatas("authors")
     
     if id:
-        datas = filter(lambda x: x.id == id, datas)
+        datas = datas.where(db.Author.id == id)
     
     return list(datas)
         
@@ -47,7 +49,7 @@ class Author:
     @strawberry.field
     def books(self, info, id: Optional[int] = None) -> List[Book]:
         # import pdb; pdb.set_trace()
-        return get_books(id=id, author_id=self.id)
+        return get_books(id=id, author=self)
 
 @strawberry.type
 class Query:
@@ -72,19 +74,9 @@ class Query:
         return "Name"
 
 if __name__ == "app":
-    datas = {
-        "books": [
-            Book(id=1, title="L'etrange histoir", author_id=1),
-            Book(id=2, title="Bleee", author_id=1),
-            Book(id=3, title="Harry Potter 1", author_id=2),
-            Book(id=4, title="Harry Potter 2", author_id=2),
-            Book(id=5, title="Harry Potter 3", author_id=2),
-            Book(id=6, title="Romeo and Juliet", author_id=3),
-        ],
-        "authors": [
-            Author(id=1, name="Mr. Scott"),
-            Author(id=2, name="JK Rowling"),
-            Author(id=3, name="Shakspear"),
-        ]
-    }
+    db.connect()
+    db.create_db()
+    db.fill_db()
     schema = strawberry.Schema(query=Query)
+    
+    # db.close()
