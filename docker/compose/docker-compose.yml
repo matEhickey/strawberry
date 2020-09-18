@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  graphql:
+    image: matehickey/strawberry-graphql
+    ports:
+      - "8000:8000"
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./api/src:/app
+    
+  webserver:
+    image: halverneus/static-file-server
+    volumes:
+      - ./webserver:/web
+    ports:
+      - "8080:8080"
