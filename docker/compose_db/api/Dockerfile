@@ -1,6 +1,4 @@
-FROM python
-
-WORKDIR /app
+FROM matehickey/strawberry-graphql 
 
 ADD src .
 

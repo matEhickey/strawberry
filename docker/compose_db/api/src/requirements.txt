@@ -1,4 +1,4 @@
-strawberry-graphql==0.32.3
+strawberry-graphql==0.32.3 # already installed in base image
 
 peewee==3.13.3 # database ORM
 python-dotenv==0.14.0 # fetching config in dotenv

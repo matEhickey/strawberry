@@ -9,6 +9,7 @@ volumes:
 services:
   graphql:
     build: ./api
+    image: matehickey/strawberry-graphql-peewee
     env_file: .env
     ports:
       - "8000:8000"

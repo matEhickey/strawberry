@@ -2,6 +2,11 @@
 
 Example of a strawberry app in a docker container.
 
+~~~sh
+docker run -it -p 8000:8000 -v `pwd`:/app matehickey/strawberry-graphql
+~~~
+
+or build it yourself:  
 
 ~~~sh
 docker build . -t strawberry

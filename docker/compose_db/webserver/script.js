@@ -1,8 +1,22 @@
 const query = `
-{ 
-  user { 
+{
+  book(id: 1) {
+    id
+    title
+    author {
+      name
+      books {
+        title
+        authorId
+      }
+    }
+  }
+  
+  authors {
     name
-    age
+    books {
+      title
+    }
   }
 }
 `;
